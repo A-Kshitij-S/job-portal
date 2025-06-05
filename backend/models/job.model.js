@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const jobSchema= new mongoose.connect({
+const jobSchema= new mongoose.Schema({
     title:{
         type:String,
         default:"",
@@ -16,6 +16,11 @@ const jobSchema= new mongoose.connect({
         default:"",
         required:true
     }],
+    experienceLevel:{
+        type: String,
+        default: "",
+        required: true
+    },
     salary:{
         type: Number,
         required: true

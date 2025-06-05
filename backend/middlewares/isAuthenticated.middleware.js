@@ -11,12 +11,12 @@ const isAuthenticated= async(req, res, next)=>{
         }
         const decode= jwt.decode(token, process.env.SECRET_KEY)
         if(!decode){
-            return res.send(400).json({
+            return res.status(400).json({
                 message: "invalid token",
                 success: false
             })
         }
-        req.id= decode.userId
+        req.id = decode.id;
         next()
     } catch (error) {
         console.log(error)

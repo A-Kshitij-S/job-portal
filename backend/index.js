@@ -4,7 +4,9 @@ import cors from "cors"
 import dotenv from "dotenv"
 import connectDB from "./utlis/db.js"
 import userRouter from "./routes/user.routes.js"
- 
+import companyRoute from "./routes/company.routes.js"
+import jobRoute from "./routes/job.routes.js"
+
 
 dotenv.config({})
 const PORT= process.env.PORT || 4000
@@ -21,7 +23,9 @@ app.use(cors(corsOption))
 
 
 app.use("/api/v1/user", userRouter)
- 
+app.use("/api/v1/company", companyRoute)
+app.use("/api/v1/job", jobRoute)
+
  
 app.listen(PORT, ()=>{
     connectDB()
