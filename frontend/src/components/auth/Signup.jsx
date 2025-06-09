@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { USER_API_END_POINT } from '@/utlis/constant'
+import { toast } from 'sonner'
+import axios from "axios";
+import { setLoading } from '@/redux/authSlice'
+
 
 const Signup = () => {
     const [input, setInput] = useState({
@@ -13,6 +18,10 @@ const Signup = () => {
         file: ""
     })
 
+    const { loading } = useSelector(store => store.auth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
     }
@@ -21,8 +30,42 @@ const Signup = () => {
     }
 
     const submitHandler = async (e) => {
-        e.preventDefault()
-        console.log(input)
+        e.preventDefault();
+
+        if (!input.fullName || !input.email || !input.password) {
+            return toast.error("Please fill in all required fields.");
+        }
+
+        const formData = new FormData();
+        formData.append("fullName", input.fullName);
+        formData.append("email", input.email);
+        formData.append("phoneNumber", input.phoneNumber);
+        formData.append("password", input.password);
+        formData.append("role", input.role);
+
+        if (input.file) {
+            formData.append("file", input.file);
+        }
+ 
+        try {
+            dispatch(setLoading(true))
+            const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
+                headers: {
+                    "content-type": "multipart/form-data"
+                },
+                withCredentials: true
+            });
+
+            if (res.data.success) {
+                toast.success(res.data.message);
+                navigate("/login");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error(error?.response?.data?.message || "Registration failed.");
+        }finally{
+            dispatch(setLoading(false))
+        }
     }
 
     return (
@@ -139,12 +182,12 @@ const Signup = () => {
                         </div>
                     </div>
 
-                    <Button
-                        type="submit"
-                        className="w-full my-4 bg-violet-950 text-white cursor-pointer"
-                    >
-                        Sign Up
-                    </Button>
+                    {
+                        loading ? <Button className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin'>Please Wait</Loader2></Button> : <Button
+                            type="submit"
+                            className="w-full my-4 bg-violet-950 text-white cursor-pointer"
+                        >Sign Up</Button>
+                    }
 
                     <span className="text-sm block text-center">
                         Already have an account?{' '}

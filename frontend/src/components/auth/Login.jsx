@@ -1,26 +1,54 @@
 import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import axios from "axios";
+import { toast } from 'sonner';
+import { USER_API_END_POINT } from '@/utlis/constant';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '@/redux/authSlice';
+import { Loader2 } from 'lucide-react';
+
 
 const Login = () => {
-    const [input, setInput]= useState({
-        email:"",
-        password:"",
-        role:"",
+    const [input, setInput] = useState({
+        email: "",
+        password: "",
+        role: "",
     })
+    const { loading } = useSelector(store => store.auth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const changeEventHandler= (e)=>{
-        setInput({...input, [e.target.name]:e.target.value})
-    }
-    const changeFileHandler= (e)=>{
-        setInput({...input, file:e.target.files?.[0]})
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
     }
 
-    const submitHandler= async(e)=>{
-        e.preventDefault()
-        console.log(input)
-    }
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            dispatch(setLoading(true))
+            const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+                headers: {
+                    "content-type": "application/json"
+                },
+                withCredentials: true
+            });
+
+            if (res.data.success) {
+                toast.success(res.data.message);
+                navigate("/");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error(error?.response?.data?.message || "Login failed.");
+        } finally {
+            dispatch(setLoading(false))
+        }
+    };
+
 
     return (
         <div>
@@ -28,7 +56,7 @@ const Login = () => {
             <div className='flex items-center justify-center max-w-7xl mx-auto '>
                 <form onSubmit={submitHandler} className=' w-1/2 border  border-gray-300 rounded-md p-4 my-10'>
                     <h1 className='font-bold text-2xl mb-5'> Sign Up</h1>
-                    
+
                     <div className='my-2 flex flex-col'>
                         <label className='text-sm'>Email</label>
                         <input
@@ -40,7 +68,7 @@ const Login = () => {
                             onChange={changeEventHandler}
                         />
                     </div>
-                    
+
                     <div className='my-2 flex flex-col'>
                         <label className='text-sm'>Password</label>
                         <input
@@ -55,31 +83,34 @@ const Login = () => {
                     <div className='flex gap-5 justify-between'>
                         <div className="flex items-center space-x-4">
                             <label className="flex items-center space-x-2">
-                                <input type="radio" 
-                                name="role"
-                                checked={input.role==="student"}
-                                value="student"
-                                onChange={changeEventHandler}
-                                 />
+                                <input type="radio"
+                                    name="role"
+                                    checked={input.role === "student"}
+                                    value="student"
+                                    onChange={changeEventHandler}
+                                />
                                 <span className='cursor-pointer'>Student</span>
                             </label>
 
                             <label className="flex items-center space-x-2">
-                                <input type="radio" 
-                                name="role" 
-                                value="recruiter"
-                                checked={input.role==="recruiter"}
-                                onChange={changeEventHandler}
+                                <input type="radio"
+                                    name="role"
+                                    value="recruiter"
+                                    checked={input.role === "recruiter"}
+                                    onChange={changeEventHandler}
                                 />
                                 <span className='cursor-pointer'>Recruiter</span>
                             </label>
                         </div>
-                            
+
                     </div>
-                    <Button
-                    type="submit"
-                    className="w-full my-4 bg-violet-950 text-white cursor-pointer"
-                    >Login</Button>
+                    {
+                        loading ? <Button className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin'>Please Wait</Loader2></Button> : <Button
+                            type="submit"
+                            className="w-full my-4 bg-violet-950 text-white cursor-pointer"
+                        >Login</Button>
+                    }
+
                     <span className='text-sm'>Don't have an account? <Link to="/signup" className="text-blue-600">Sign Up</Link></span>
                 </form>
             </div>
