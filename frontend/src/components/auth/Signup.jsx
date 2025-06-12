@@ -6,6 +6,7 @@ import { USER_API_END_POINT } from '@/utlis/constant'
 import { toast } from 'sonner'
 import axios from "axios";
 import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 
 const Signup = () => {
