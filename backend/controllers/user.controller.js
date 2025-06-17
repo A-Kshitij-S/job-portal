@@ -89,6 +89,8 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
+    
+
 
     user = {
       id: user._id,
@@ -119,6 +121,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
+    // console.log("Cookies:", req.cookies);
     return res
       .status(200)
       .clearCookie("token", {

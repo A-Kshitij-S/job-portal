@@ -30,9 +30,9 @@ app.use("/api/v1/job", jobRoute)
 app.use("/api/v1/application", applicationRoute)
 
 
-// app.get("/test-auth", isAuthenticated, (req, res) => {
-//   res.status(200).json({ message: "You're authenticated", userId: req.id });
-// });
+app.get("/test-auth", isAuthenticated, (req, res) => {
+  res.status(200).json({ message: "You're authenticated", userId: req.id });
+});
 
 
 // app.get("/logout", (req, res) => {
