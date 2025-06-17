@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import axios from "axios";
 import { setLoading } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 const Signup = () => {

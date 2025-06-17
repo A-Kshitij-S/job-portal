@@ -24,13 +24,16 @@ const userSchema= new mongoose.Schema({
         default:"student"
     },
     profile:{
-        bio:{type:String, default:""},
+        bio:{type:String},
         skills:[{type:String}],
-        resume:{type:String, default:""},
-        profilePicture:{type:String, default:""},
-        resumeOriginalName:{type:String, default:""},
-        company:{type:mongoose.Schema.Types.ObjectId, ref:"Company", default:null},
-    }
+        resume:{type:String}, // URL to resume file
+        resumeOriginalName:{type:String},
+        company:{type:mongoose.Schema.Types.ObjectId, ref:'Company'}, 
+        profilePhoto:{
+            type:String,
+            default:""
+        }
+    },
 }, {timestamps:true});
 
 export const User=mongoose.model("User", userSchema);

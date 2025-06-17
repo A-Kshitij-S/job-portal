@@ -7,6 +7,7 @@ import userRouter from "./routes/user.routes.js"
 import companyRoute from "./routes/company.routes.js"
 import jobRoute from "./routes/job.routes.js"
 import applicationRoute from "./routes/application.routes.js"
+import isAuthenticated from "./middlewares/isAuthenticated.middleware.js"
 
 
 dotenv.config({})
@@ -16,17 +17,33 @@ const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
-const corsOption={
-    origin:'http://localhost:5173',
-    credentials: true
-}
-app.use(cors(corsOption))
+
+app.use(cors({
+  origin: "http://localhost:5173", // your frontend URL
+  credentials: true,
+}));
 
 
 app.use("/api/v1/user", userRouter)
 app.use("/api/v1/company", companyRoute)
 app.use("/api/v1/job", jobRoute)
 app.use("/api/v1/application", applicationRoute)
+
+
+// app.get("/test-auth", isAuthenticated, (req, res) => {
+//   res.status(200).json({ message: "You're authenticated", userId: req.id });
+// });
+
+
+// app.get("/logout", (req, res) => {
+//   res.clearCookie("token", {
+//     httpOnly: true,
+//     sameSite: "Lax",
+//     secure: false,
+//     path: "/"
+//   });
+//   res.status(200).json({ message: "Logged out" });
+// });
 
  
 app.listen(PORT, ()=>{

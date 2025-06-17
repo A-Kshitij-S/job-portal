@@ -1,27 +1,39 @@
-import React, { useState } from 'react'
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from './ui/dialog'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
-import { Loader2 } from 'lucide-react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { USER_API_END_POINT } from '@/utils/constant'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
+import { DialogFooter, DialogHeader } from './ui/dialog'
+import { USER_API_END_POINT } from '@/utlis/constant'
 import { setUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
+import { Label } from '@radix-ui/react-label'
+import { Input } from './ui/input'
+import { Loader2 } from 'lucide-react'
+import { Button } from './ui/button'
+import { useDispatch, useSelector } from 'react-redux'
 
-const UpdateProfileDialog = ({ open, setOpen }) => {
+const UpdateProfileDialog = ({ openEditBox, setOpenEditBox }) => {
     const [loading, setLoading] = useState(false);
+    const [input, setInput]= useState("")
     const { user } = useSelector(store => store.auth);
 
-    const [input, setInput] = useState({
-        fullname: user?.fullname || "",
-        email: user?.email || "",
-        phoneNumber: user?.phoneNumber || "",
-        bio: user?.profile?.bio || "",
-        skills: user?.profile?.skills?.map(skill => skill) || "",
-        file: user?.profile?.resume || ""
-    });
+    // const [input, setInput] = useState({
+    //     fullName: user?.fullname || "",
+    //     email: user?.email || "",
+    //     phoneNumber: user?.phoneNumber || "",
+    //     bio: user?.profile?.bio || "",
+    //     skills: user?.profile?.skills?.map(skill => skill) || "",
+    //     file: user?.profile?.resume || ""
+    // });
+    useEffect(() => {
+        setInput({
+            fullName: user?.fullName || "",
+            email: user?.email || "",
+            phoneNumber: user?.phoneNumber || "",
+            bio: user?.profile?.bio || "",
+            skills: Array.isArray(user?.profile?.skills) ? user?.profile?.skills.join(",") : user?.profile?.skills || "",
+            file: user?.profile?.resume || "",
+        });
+    }, [user]);
     const dispatch = useDispatch();
 
     const changeEventHandler = (e) => {
@@ -35,15 +47,19 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        console.log("Submit clicked", input);
+
         const formData = new FormData();
-        formData.append("fullname", input.fullname);
+        formData.append("fullName", input.fullName);
         formData.append("email", input.email);
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
+        formData.append("skills", Array.isArray(input.skills) ? input.skills.join(",") : input.skills);
+
         if (input.file) {
             formData.append("file", input.file);
         }
+
         try {
             setLoading(true);
             const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
@@ -52,26 +68,34 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 },
                 withCredentials: true
             });
+
+            console.log("Response from server:", res.data);
+
             if (res.data.success) {
                 dispatch(setUser(res.data.user));
                 toast.success(res.data.message);
+                setOpenEditBox(false);
+                setLoading(false) // ✅ Move this inside the success block
+            } else {
+                toast.error("Update failed!");
             }
+            setLoading(false)
+
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
-        } finally{
+            console.log("Error occurred:", error);
+            toast.error(error?.response?.data?.message || "Something went wrong");
+            setLoading(false)
+        } finally {
             setLoading(false);
         }
-        setOpen(false);
-        console.log(input);
-    }
+    };
 
 
 
     return (
         <div>
-            <Dialog open={open}>
-                <DialogContent className="sm:max-w-[425px]" onInteractOutside={() => setOpen(false)}>
+            <Dialog open={openEditBox} >
+                <DialogContent className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 sm:max-w-[425px] bg-white p-6 rounded-lg shadow-lg" onInteractOutside={() => setOpenEditBox(false)}>
                     <DialogHeader>
                         <DialogTitle>Update Profile</DialogTitle>
                     </DialogHeader>
@@ -80,10 +104,10 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="name" className="text-right">Name</Label>
                                 <Input
-                                    id="name"
-                                    name="name"
+                                    id="fullName"
+                                    name="fullName"
                                     type="text"
-                                    value={input.fullname}
+                                    value={input.fullName}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
                                 />

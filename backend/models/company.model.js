@@ -13,7 +13,7 @@ const companySchema = mongoose.Schema({
     logo: {
         type: String,
         default: ""
-    },
+    }, 
     website: {
         type: String,
         default: ""

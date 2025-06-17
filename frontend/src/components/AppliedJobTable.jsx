@@ -34,4 +34,4 @@ const AppliedJobTable = () => {
     )
 }
 
-export default AppliedJobTable
+export default AppliedJobTable 
