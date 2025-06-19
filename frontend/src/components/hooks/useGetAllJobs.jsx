@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setAllJobs } from '@/redux/jobSlice'
 import { JOB_API_END_POINT } from '@/utlis/constant'
+import axios from 'axios'
 
 const useGetAllJobs = () => {
     const dispatch = useDispatch()
@@ -18,7 +19,7 @@ const useGetAllJobs = () => {
             }
         }
         fetchAllJobs()
-    })
+    },[])
 }
 
 export default useGetAllJobs

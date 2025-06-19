@@ -4,19 +4,22 @@ import HeroSection from './HeroSection'
 import CategoryCarousel from './CategoryCarousel'
 import LatestJobs from './LatestJobs'
 import Footer from './Footer'
+import useGetAllJobs from './hooks/useGetAllJobs'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import useGetAllJobs from './hooks/useGetAllJobs'
 
 const Home = () => {
   useGetAllJobs()
   const user = useSelector(store => store.auth)
   const navigate = useNavigate()
+
   useEffect(() => {
-    if (user?.role === "recruter") {
+    console.log("User in useEffect:", user)
+    if (user.user?.role === "recruiter") {
       navigate("/admin/companies")
     }
-  }, [])
+  }, [user?.role, navigate])
+
   return (
     <div>
       <Navbar />
