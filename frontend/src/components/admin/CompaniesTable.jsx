@@ -124,10 +124,24 @@ import { COMPANY_API_END_POINT } from '@/utlis/constant'
 
 const CompaniesTable = () => {
   const navigate = useNavigate()
-  const companies = useSelector((state) => state.company.companies)
-    const dispatch= useDispatch()
+  const { companies, searchCompanyByText } = useSelector((state) => state.company)
+  const dispatch = useDispatch()
 
-    const [data, setData]= useState()
+  const [data, setData] = useState()
+
+
+  const [filterCompany, setFilterCompany] = useState()
+
+  useEffect(() => {
+    if (!companies || companies.length === 0) return;
+
+    const filtered = companies.filter(company =>
+      company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase())
+    );
+
+    setFilterCompany(filtered);
+  }, [companies, searchCompanyByText]);
+
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -136,8 +150,7 @@ const CompaniesTable = () => {
           withCredentials: true,
         })
         if (res.data.success) {
-            // console.log(res.data.company)
-            setData(res.data.company)
+          // setData(res.data.company)
           dispatch(setCompanies(res.data.company))
         }
       } catch (err) {
@@ -161,8 +174,8 @@ const CompaniesTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {Array.isArray(data) && data.length > 0 ? (
-            data.map((company) => (
+          {Array.isArray(filterCompany) && filterCompany.length > 0 ? (
+            filterCompany.map((company) => (
               <TableRow key={company._id}>
                 <TableCell>
                   <Avatar>
@@ -171,16 +184,16 @@ const CompaniesTable = () => {
                 </TableCell>
                 <TableCell>{company.name}</TableCell>
                 <TableCell>{company.createdAt?.split("T")[0]}</TableCell>
-                <TableCell className="text-right">
-                  <Popover>
-                    <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
+                <TableCell className="text-right ">
+                  <Popover >
+                    <PopoverTrigger className="cursor-pointer"><MoreHorizontal /></PopoverTrigger>
                     <PopoverContent className="w-32">
                       <div
                         onClick={() => navigate(`/admin/companies/${company._id}`)}
                         className='flex items-center gap-2 w-fit cursor-pointer'
                       >
-                        <Edit2 className='w-4' />
-                        <span>Edit</span>
+                        <Edit2 className='w-4 cursor-pointer' />
+                        <span >Edit</span>
                       </div>
                     </PopoverContent>
                   </Popover>
