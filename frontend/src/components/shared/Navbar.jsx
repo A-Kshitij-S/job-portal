@@ -46,10 +46,10 @@ const Navbar = () => {
         </div>
         <div className='flex gap-5'>
           <div>
-            <ul className='flex font-medium h-16 items-center gap-6 justify-between p-3'>
+            <ul className='flex font-medium h-16 items-center gap-6 justify-between p-3 '>
               {
                 user && user.role === "recruiter" ? (
-                  <>
+                  < >
                     <li><Link to="/admin/companies">companies</Link> </li>
                     <li><Link to="/admin/jobs">Jobs</Link></li>
                   </>
@@ -86,8 +86,8 @@ const Navbar = () => {
                   </Avatar>
                 </PopoverTrigger>
                 <div className=''>
-                  <PopoverContent >
-                    <div className='bg-blue'>
+                  <PopoverContent  className="bg-white border border-gray-200 shadow-lg">
+                    <div className='bg-blue '>
                       <div className='flex gap-6 py-2 '>
                         <Avatar>
                           <AvatarImage src={user?.profile?.profilePhoto} className="cursor-pointer" />
@@ -98,10 +98,10 @@ const Navbar = () => {
                           <h4 className='text-sm text-gray-400'>{user?.profile?.bio}</h4>
                         </div>
                       </div>
-                      <div>
+                      <div className=''>
                         {
                           user && user.role === "student" && (
-                            <div className='flex'>
+                            <div className='flex '>
                               <span className='py-1'><User2 /></span>
                               <Button variant="link"><Link to="/profile">View Profile</Link></Button>
                             </div>

@@ -130,7 +130,7 @@ const CompaniesTable = () => {
   const [data, setData] = useState()
 
 
-  const [filterCompany, setFilterCompany] = useState()
+  const [filterCompany, setFilterCompany] = useState(companies)
 
   useEffect(() => {
     if (!companies || companies.length === 0) return;

@@ -10,8 +10,13 @@ import { toast } from 'sonner'
 import { useSelector } from 'react-redux'
 import store from '@/redux/store'
 import axios from 'axios'
+import useGetCompanyById from '../hooks/useGetCompanyById'
 
 const CompanySetup = () => {
+    const params = useParams()
+
+    useGetCompanyById(params.id)
+
     const [input, setInput] = useState({
         name: "",
         description: "",
@@ -20,7 +25,6 @@ const CompanySetup = () => {
         file: null
     });
 
-    const params = useParams()
 
     const [loading, setLoading] = useState(false)
 
@@ -84,7 +88,7 @@ const CompanySetup = () => {
             <div className='max-w-xl mx-auto my-10'>
                 <form onSubmit={submitHandler}>
                     <div className='flex items-center gap-5 p-8'>
-                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-500 font-semibold">
+                        <Button onClick={() => navigate("/admin/companies")} variant="outline" className="flex items-center gap-2 text-gray-900 font-semibold cursor-pointer">
                             <ArrowLeft />
                             <span>Back</span>
                         </Button>
@@ -145,7 +149,7 @@ const CompanySetup = () => {
 
                     </div>
                     {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Update</Button>
+                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin  bg-black text-amber-50' /> Please wait </Button> : <Button type="submit" className="w-full my-4 bg-black text-amber-50">Update</Button>
                     }
                 </form>
             </div>
