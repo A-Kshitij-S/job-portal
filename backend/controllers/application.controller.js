@@ -131,11 +131,47 @@ export const getApplicants = async (req, res) => {
 };
 
 // UPDATE APPLICATION STATUS
+// export const updateStatus = async (req, res) => {
+//     try {
+//         const { status } = req.body;
+//         const applicationId = req.params.id;
+
+//         if (!status) {
+//             return res.status(400).json({
+//                 message: "Status is required",
+//                 success: false
+//             });
+//         }
+
+//         const application = await Application.findById(applicationId);
+//         if (!application) {
+//             return res.status(400).json({
+//                 message: "Application not found",
+//                 success: false
+//             });
+//         }
+
+//         application.status = status;
+//         await application.save();
+
+//         return res.status(200).json({
+//             message: "Status updated successfully",
+//             application,
+//             success: true
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             message: "Something went wrong",
+//             success: false
+//         });
+//     }
+// };
+
 export const updateStatus = async (req, res) => {
     try {
         const { status } = req.body;
         const applicationId = req.params.id;
-
         if (!status) {
             return res.status(400).json({
                 message: "Status is required",
@@ -144,6 +180,7 @@ export const updateStatus = async (req, res) => {
         }
 
         const application = await Application.findById(applicationId);
+
         if (!application) {
             return res.status(400).json({
                 message: "Application not found",
@@ -151,19 +188,24 @@ export const updateStatus = async (req, res) => {
             });
         }
 
+        // console.log("➡️ Found application:", application);
+
         application.status = status;
-        await application.save();
+
+        await application.save(); // 🔥 The crash likely happens here
 
         return res.status(200).json({
             message: "Status updated successfully",
             application,
             success: true
         });
+
     } catch (error) {
-        console.log(error);
+        console.error("🔥 Server Error:", error); // FULL error object
         return res.status(500).json({
             message: "Something went wrong",
             success: false
         });
     }
 };
+
