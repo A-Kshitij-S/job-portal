@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Search } from 'lucide-react'
 import { useDispatch } from 'react-redux';
-// import { setSearchedQuery } from '@/redux/jobSlice';
 import { useNavigate } from 'react-router-dom';
+import { setSearchedQuery } from '@/redux/jobSlice';
 
 const HeroSection = () => {
     const [query, setQuery] = useState("");
@@ -25,7 +25,7 @@ const HeroSection = () => {
                     <input
                         type="text"
                         placeholder='Find your dream jobs'
-                        // onChange={(e) => setQuery(e.target.value)}
+                        onChange={(e) => setQuery(e.target.value)}
                         className='outline-none border-none w-full'
 
                     />

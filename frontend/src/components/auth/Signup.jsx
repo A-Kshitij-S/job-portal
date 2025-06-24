@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
@@ -48,7 +48,7 @@ const Signup = () => {
         if (input.file) {
             formData.append("file", input.file);
         }
- 
+
         try {
             dispatch(setLoading(true))
             const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
@@ -65,7 +65,7 @@ const Signup = () => {
         } catch (error) {
             console.error(error);
             toast.error(error?.response?.data?.message || "Registration failed.");
-        }finally{
+        } finally {
             dispatch(setLoading(false))
         }
     }

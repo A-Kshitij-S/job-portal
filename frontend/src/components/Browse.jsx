@@ -11,11 +11,13 @@ const Browse = () => {
     useGetAllJobs();
     const {allJobs} = useSelector(store=>store.job);
     const dispatch = useDispatch();
-    useEffect(()=>{
-        return ()=>{
-            dispatch(setSearchedQuery(""));
-        }
-    },[])
+
+    // useEffect(()=>{
+    //     return ()=>{
+    //         dispatch(setSearchedQuery(""));
+    //     }
+    // },[])
+    
     return (
         <div>
             <Navbar />

@@ -38,7 +38,8 @@ export const applyJob = async (req, res) => {
 
         const newApplication = await Application.create({
             job: jobId,
-            applicant: userId
+            applicant: userId,
+            status:"pending"
         });
 
         job.applications.push(newApplication._id);
@@ -131,43 +132,6 @@ export const getApplicants = async (req, res) => {
 };
 
 // UPDATE APPLICATION STATUS
-// export const updateStatus = async (req, res) => {
-//     try {
-//         const { status } = req.body;
-//         const applicationId = req.params.id;
-
-//         if (!status) {
-//             return res.status(400).json({
-//                 message: "Status is required",
-//                 success: false
-//             });
-//         }
-
-//         const application = await Application.findById(applicationId);
-//         if (!application) {
-//             return res.status(400).json({
-//                 message: "Application not found",
-//                 success: false
-//             });
-//         }
-
-//         application.status = status;
-//         await application.save();
-
-//         return res.status(200).json({
-//             message: "Status updated successfully",
-//             application,
-//             success: true
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({
-//             message: "Something went wrong",
-//             success: false
-//         });
-//     }
-// };
-
 export const updateStatus = async (req, res) => {
     try {
         const { status } = req.body;

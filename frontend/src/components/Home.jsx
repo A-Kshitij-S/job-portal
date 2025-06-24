@@ -14,7 +14,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log("User in useEffect:", user)
+    // console.log("User in useEffect:", user)
     if (user.user?.role === "recruiter") {
       navigate("/admin/companies")
     }

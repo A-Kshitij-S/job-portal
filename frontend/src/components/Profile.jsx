@@ -7,14 +7,14 @@ import { Label } from './ui/label'
 import AppliedJobTable from './AppliedJobTable'
 import UpdateProfileDialog from './UpdateProfileDialog'
 import { useSelector } from 'react-redux'
-import store from '@/redux/store'
 import { Badge } from './ui/badge'
+import useGetAppliedJob from './hooks/useGetAppliedJob'
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
 
 const Profile = () => {
-    // useGetAppliedJobs();
+    useGetAppliedJob();
     const [openEditBox, setOpenEditBox] = useState(false);
     const { user } = useSelector(store => store.auth);
 
@@ -28,7 +28,7 @@ const Profile = () => {
         ? user.profile.skills
         : user?.profile?.skills?.split?.(",") || [];
 
-    console.log("Resume URL:", user?.profile?.resume);
+    // console.log("Resume URL:", user?.profile?.resume);
 
 
     return (

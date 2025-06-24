@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
@@ -16,7 +16,7 @@ const Login = () => {
         password: "",
         role: "",
     })
-    const { loading } = useSelector(store => store.auth)
+    const { loading , user } = useSelector(store => store.auth)
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -49,6 +49,10 @@ const Login = () => {
             dispatch(setLoading(false))
         }
     };
+
+    useEffect(()=>{
+        if(user) navigate("/")
+    },[])
 
 
     return (
