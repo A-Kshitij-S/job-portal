@@ -89,8 +89,6 @@ export const login = async (req, res) => {
     const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
       expiresIn: "1d",
     });
-    
-
 
     user = {
       id: user._id,
@@ -104,9 +102,9 @@ export const login = async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: false, // true if HTTPS
-        sameSite: "Lax", // "None" if you're on cross-domain HTTPS
-        path: "/", // ❗ very important
+        secure: true, // ✅ MUST be true for HTTPS (like Render)
+        sameSite: "None", // ✅ for cross-site frontend-backend setup
+        path: "/",
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json({
