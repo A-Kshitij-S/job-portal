@@ -27,7 +27,7 @@ A fullstack job interview portal that streamlines the recruitment process by all
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 **Frontend:** React, Tailwind CSS, ShadCN UI, Axios  
 **Backend:** Node.js, Express.js  
