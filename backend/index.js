@@ -19,7 +19,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
+  origin: "https://job-portal-frontend-u84g.onrender.com", // your frontend URL
   credentials: true,
 }));
 
@@ -28,22 +28,6 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/company", companyRoute)
 app.use("/api/v1/job", jobRoute)
 app.use("/api/v1/application", applicationRoute)
-
-
-app.get("/test-auth", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "You're authenticated", userId: req.id });
-});
-
-
-// app.get("/logout", (req, res) => {
-//   res.clearCookie("token", {
-//     httpOnly: true,
-//     sameSite: "Lax",
-//     secure: false,
-//     path: "/"
-//   });
-//   res.status(200).json({ message: "Logged out" });
-// });
 
  
 app.listen(PORT, ()=>{
