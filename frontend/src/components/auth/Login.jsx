@@ -30,6 +30,7 @@ const Login = () => {
 
         try {
             dispatch(setLoading(true))
+            console.log("sending login request...")
             const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
                 headers: {
                     "content-type": "application/json"

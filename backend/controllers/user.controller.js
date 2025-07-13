@@ -98,14 +98,13 @@ export const login = async (req, res) => {
       role: user.role,
       profile: user.profile,
     };
-    return res
-      .status(200)
+    res
       .cookie("token", token, {
         httpOnly: true,
-        secure: true, // ✅ MUST be true for HTTPS (like Render)
-        sameSite: "None", // ✅ for cross-site frontend-backend setup
+        secure: true, // ✅ MUST be true for HTTPS
+        sameSite: "None", // ✅ for cross-site cookie
         path: "/",
-        maxAge: 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000, // 1 day
       })
       .json({
         message: `Welcome back ${user.fullName}`,
