@@ -11,13 +11,16 @@ import { setSingleJob } from '@/redux/jobSlice';
 const JobDescription = () => {
      
     const {singleJob} = useSelector(store => store.job);
-    // console.log(singleJob.role)
     const {user} = useSelector(store=>store.auth);
-
-
-    const isIntiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;  
+    
+    const isIntiallyApplied = singleJob?.applications?.some(e => e.applicant === user?.id) || false;
     const [isApplied, setIsApplied] = useState(isIntiallyApplied);
     
+    useEffect(()=>{
+        const isIntiallyApplied = singleJob?.applications?.some(e => e.applicant === user?.id) || false;
+        setIsApplied(isIntiallyApplied)
+    }, [isApplied])
+
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
