@@ -4,9 +4,7 @@ A full-stack job interview platform designed to streamline the hiring process. R
 
 ---
 
-## Demo Website
-
--([https://job-portal-frontend-u84g.onrender.com])
+## Demo Website: ([https://job-portal-frontend-u84g.onrender.com])
 
 ## Features
 
