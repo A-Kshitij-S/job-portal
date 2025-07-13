@@ -28,6 +28,10 @@ app.use("/api/v1/user", userRouter)
 app.use("/api/v1/company", companyRoute)
 app.use("/api/v1/job", jobRoute)
 app.use("/api/v1/application", applicationRoute)
+app.get("/ping", (req, res) => {
+  console.log("Cookies:", req.cookies);
+  res.send("pong");
+});
 
  
 app.listen(PORT, ()=>{
