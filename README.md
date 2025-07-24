@@ -16,6 +16,8 @@ A full-stack job interview platform designed to streamline the hiring process. R
 **Backend:** [https://job-portal-backend-v3w0.onrender.com](https://job-portal-backend-v3w0.onrender.com)
 
 <img width="1261" height="667" alt="image" src="https://github.com/user-attachments/assets/70cd5e76-a9c9-4a1b-8724-2fdb07e11d78" /> <br>
+<img width="1282" height="662" alt="image" src="https://github.com/user-attachments/assets/5d859eee-70cd-46da-88b2-05a6fdfea43c" /> <br>
+
 
 ---
 
