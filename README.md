@@ -167,4 +167,4 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 
 - Resume files are uploaded securely via Cloudinary.
 - Make sure to add proper environment variables for production deployment.
-- This project is intended for learning, portfolio, or internal use.
+- This project is intended for learning.
