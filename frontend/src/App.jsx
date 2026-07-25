@@ -7,6 +7,7 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
+import Interview from './components/Interview'
 import Companies from './components/admin/Companies'
 import CompanyCreate from './components/admin/CompanyCreate'
 import CompanySetup from './components/admin/CompanySetup'
@@ -45,9 +46,13 @@ const appRouter= createBrowserRouter([
     path:'/profile',
     element:<Profile/>
   },
+  {
+    path:'/interview/:jobId',
+    element:<Interview/>
+  },
 
 
-  // admin started 
+  // admin started
   {
     path: '/admin/companies',
     element: <ProtectedRoute> <Companies/> </ProtectedRoute> 
